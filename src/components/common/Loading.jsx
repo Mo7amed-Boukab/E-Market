@@ -1,0 +1,12 @@
+import './Loading.css';
+
+const Loading = ({ message = 'Loading...' }) => {
+  return (
+    <div className="loading-container">
+      <div className="loading-spinner"></div>
+      <div className="loading-message">{message}</div>
+    </div>
+  );
+};
+
+export default Loading;

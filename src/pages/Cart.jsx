@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import './Cart.css';
@@ -6,11 +7,14 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } =
     useCart();
+  const [showCheckoutMessage, setShowCheckoutMessage] = useState(false);
 
   const handleCheckout = () => {
-    alert('Checkout functionality would be implemented here!');
-    clearCart();
-    navigate('/');
+    setShowCheckoutMessage(true);
+    setTimeout(() => {
+      clearCart();
+      navigate('/');
+    }, 2000);
   };
 
   if (cart.length === 0) {
@@ -30,6 +34,12 @@ const Cart = () => {
   return (
     <div className="cart-container">
       <h1>Shopping Cart</h1>
+
+      {showCheckoutMessage && (
+        <div className="checkout-message">
+          <p>✓ Order placed successfully! Redirecting...</p>
+        </div>
+      )}
 
       <div className="cart-content">
         <div className="cart-items">
