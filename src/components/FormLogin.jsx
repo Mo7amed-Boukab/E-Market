@@ -3,55 +3,33 @@ import InputFormAuth from "./InputFormAuth";
 import ButtonSubmitAuthForm from "./buttonSubmitAuthForm";
 import FooterAuthPage from "./FooterAuthPage";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { useContext } from "react";
+import {AuthContext} from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "../axios";
 
 const FormLogin = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
 
+  const { login, fieldErrors, setFieldErrors} = useContext(AuthContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      console.log("Utilisateur connecté :", user);
-    }
-
-    // const token = localStorage.getItem("authToken");
-    // if (token) navigate("/");
-  }, [isAuthenticated, user]);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.target);
     const Data = Object.fromEntries(formData.entries());
-
+    
     try {
-      const response = await axios.post("auth/login", Data);
-
-      if (response.status === 200) {
-
-        // Changer l'état de isAuthenticated et enregistrer les données utilisateur
-        setIsAuthenticated(true);
-        setUser(response.data.user);
-
-        // Store the token et les données utilisateur dans localStorage
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-
-        // navigate to home page
-        navigate("/");
-       
-      } else {
-        console.error("Connexion échouée");
-      }
+         await login(Data);
+         navigate("/");
     } catch (error) {
-      if (error.response) {
-        console.error("Erreur API :", error.response.data.message);
-      } else {
-        console.error("Erreur réseau :", error.message);
-      }
+       console.error("Error lors de connexion : ", error);
+
+       const apiErrors = error.response?.data?.errors;
+       if (apiErrors) {
+         setFieldErrors(apiErrors);
+       } else {
+         setFieldErrors({ global: error.response?.data?.message || "Erreur inconnue" });
+       }
     }
   };
 
@@ -66,6 +44,8 @@ const FormLogin = () => {
         </div>
 
         <form method="POST" className="space-y-4" onSubmit={HandleSubmit}>
+         {/* global errors */}
+          {fieldErrors.global && <p className="text-red-500 mb-2">{fieldErrors.global}</p>}
           <InputFormAuth
             id="email"
             type="email"
@@ -73,6 +53,9 @@ const FormLogin = () => {
             placeholder="Entrez votre email"
             icon={<FaEnvelope />}
           />
+          {/* email error */}
+           {fieldErrors.email && <p className="text-red-400 text-sm">{fieldErrors.email}</p>}
+
           <InputFormAuth
             id="password"
             type="password"
@@ -80,6 +63,8 @@ const FormLogin = () => {
             placeholder="Entrez votre mot de passe"
             icon={<FaLock />}
           />
+            {/* password error */}
+           {fieldErrors.password && <p className="text-red-400 text-sm">{fieldErrors.password}</p>}
 
           {/* Remember me & Mot de passe oublié */}
           <div className="flex justify-between items-center">
