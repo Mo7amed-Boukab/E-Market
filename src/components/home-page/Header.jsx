@@ -1,9 +1,19 @@
-import { Search, Heart, ShoppingCart, User, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Search, Heart, ShoppingCart, User, Menu, X, LogOut, UserCircle } from "lucide-react";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setIsDropdownOpen(false);
+    navigate("/");
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -35,9 +45,52 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <Heart className="w-5 h-5 text-black hidden lg:flex md:flex" />
-          <ShoppingCart className="w-5 h-5 text-black" />
-          <User className="w-5 h-5 text-black hidden lg:flex md:flex" />
+          <Heart className="w-5 h-5 text-black hidden lg:flex md:flex cursor-pointer hover:opacity-60 transition" />
+          <ShoppingCart className="w-5 h-5 text-black cursor-pointer hover:opacity-60 transition" />
+          
+          {isAuthenticated ? (
+            <div className="relative hidden lg:block md:block">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 hover:opacity-60 transition"
+              >
+                <User className="w-5 h-5 text-black" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg z-50 font-serif">
+
+                  <div className="px-4 py-3 border-b border-gray-200">
+                    <p className="text-sm font-medium text-black">{user?.fullname || "Utilisateur"}</p>
+                    <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                  </div>
+
+                  <div className="py-2">
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-black hover:bg-gray-100 transition"
+                    >
+                      <UserCircle className="w-4 h-4" />
+                      <span>Mon Profil</span>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-black hover:bg-gray-100 transition w-full text-left"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Déconnexion</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="hidden lg:flex md:flex">
+              <User className="w-5 h-5 text-black hover:opacity-60 transition" />
+            </Link>
+          )}
+
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -89,15 +142,42 @@ const Header = () => {
             />
           </div>
 
-          <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-200">
-            <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition">
+          <div className="flex flex-col gap-6 mt-4 pt-4 border-t border-gray-200 hover:bg-gray-100">
+            <button className="flex items-center gap-2 text-sm text-black transition">
               <Heart className="w-5 h-5" />
               <span>Favoris</span>
             </button>
-            <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition">
-              <User className="w-5 h-5" />
-              <span>Compte</span>
-            </button>
+            
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 text-sm text-black hover:bg-gray-100 transition"
+                >
+                  <UserCircle className="w-5 h-5" />
+                  <span>Mon Profil</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 text-sm text-black hover:bg-gray-100 transition"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Déconnexion</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center gap-2 text-sm text-black transition"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <User className="w-5 h-5" />
+                <span>Se connecter</span>
+              </Link>
+            )}
           </div>
         </nav>
       )}
