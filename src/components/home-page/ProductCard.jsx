@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Heart, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ images, badge, discount, title, price, reviews }) => {
+const ProductCard = ({ images, badge, discount, title, price, reviews ,productIndex}) => {
 
     const [imageIndex, setImageIndex] = useState(0);
 
@@ -52,9 +53,11 @@ const ProductCard = ({ images, badge, discount, title, price, reviews }) => {
 
 
         <div className="space-y-2">
+        <Link to={`/product/${productIndex}`}>
           <h3 className="text-black font-medium font-serif text-sm">
             {title}
           </h3>
+        </Link>
           <div className="flex items-center justify-between">
             <span className="text-black font-medium font-serif">
               {price} DH

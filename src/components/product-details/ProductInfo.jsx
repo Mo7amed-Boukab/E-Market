@@ -29,7 +29,10 @@ const ProductInfo = ({
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-black stroke-black" />
               ))}
-              <span className="text-sm text-gray-600 ml-2">{reviews} Avis</span>
+              {reviews && (
+                 <span className="text-sm text-gray-600 ml-2">{reviews} Avis</span>
+              )}
+             
             </div>
             <span className="text-gray-400">|</span>
             {stock && (

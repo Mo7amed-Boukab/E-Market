@@ -51,6 +51,7 @@ const Products = () => {
             reviews={product.reviews}
             badge={product.isNew}
             discount={product.discount}
+            productIndex={product._id}
             />
           ))}
         </div>
