@@ -1,91 +1,28 @@
 import ProductCard from "./ProductCard";
 import Button from "./Button";
+import axios from "../../axios";
+import { useState, useEffect } from 'react';
 
 const Products = () => {
+  
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const products = [
-    {
-      id: 1,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: true,
-      discount: "-35%",
-      image: null,
-    },
-    {
-      id: 2,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: "-35%",
-      image: null,
-    },
-    {
-      id: 3,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: "-35%",
-      image: null,
-    },
-    {
-      id: 4,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: "-35%",
-      image: null,
-    },
-    {
-      id: 5,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: null,
-      image: null,
-    },
-    {
-      id: 6,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: null,
-      image: null,
-    },
-     {
-      id: 7,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: null,
-      image: null,
-    },
-     {
-      id: 8,
-      title: "Titre de card",
-      price: "360 DH",
-      rating: 5,
-      reviews: 45,
-      isNew: false,
-      discount: null,
-      image: null,
-    }
-  ];
-
+  useEffect( () => {
+   
+     const fetchProducts = async () => {
+         try {
+            const response = await axios.get("/products");
+            setProducts(response.data.data.products);
+         } catch (error) {
+            console.error(error)
+         } finally {
+           setLoading(true);
+         }
+     };    
+     fetchProducts();
+    
+  }, []);
 
   return (
     <section className="bg-white py-16 px-4">
@@ -108,6 +45,7 @@ const Products = () => {
           {products && products.map((product, index) => (
             <ProductCard 
             key={index}
+            images={product.imageUrls?.[index]}
             title={product.title}
             price={product.price}
             reviews={product.reviews}

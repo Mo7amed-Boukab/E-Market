@@ -9,6 +9,7 @@ const ProductCard = ({ images, badge, discount, title, price, reviews }) => {
       <div className="group relative">
 
         <div className="relative bg-gray-100 aspect-4/4 mb-4 overflow-hidden">
+          <img src= {images} alt= {title} className="w-40 h-40 object-cover" />
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {badge && (
               <span className="bg-white text-black text-xs font-medium px-3 py-1 font-serif">
@@ -56,7 +57,7 @@ const ProductCard = ({ images, badge, discount, title, price, reviews }) => {
           </h3>
           <div className="flex items-center justify-between">
             <span className="text-black font-medium font-serif">
-              {price}
+              {price} DH
             </span>
             <div className="flex items-center gap-1">
 
