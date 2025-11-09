@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
+import ProductDetails from "../pages/ProductDetails";
 
 function AppRouter() {
   return (
@@ -11,7 +12,8 @@ function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="*" element={<NotFound/>} />
+        <Route path="/products" element={<ProductDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
