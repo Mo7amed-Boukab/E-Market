@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import axios from "../axios";
-
+import { LoaderContext } from "./LoaderContext";
 
 export const AuthContext = createContext();
 
@@ -8,8 +8,10 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("authToken") || null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
+
+  const { showLoader, hideLoader, isLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     if (token) {
@@ -22,9 +24,12 @@ const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = async (credentials) => {
-    setLoading(true);
+    showLoader();
     try {
+         // test loader
+         // await new Promise(resolve => setTimeout(resolve, 3000));
       const response = await axios.post("/auth/login", credentials);
+      // console.log(response);
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -36,11 +41,11 @@ const AuthProvider = ({ children }) => {
         console.error("Erreur lors de la connexion :", error.response?.data?.message || error.message);
         throw error; 
      } finally {
-      setLoading(false);
+      hideLoader();
      };
   };
   const register = async (credentials) => {
-     setLoading(true);
+      showLoader();
       try {
            const response = await axios.post("/auth/register", credentials);
            if(response.status === 201 || response.status === 200){
@@ -51,7 +56,7 @@ const AuthProvider = ({ children }) => {
            console.error("Erreur lors de la connexion ", error.response?.data?.message || error.message);
            throw error;
       } finally {
-       setLoading(false);
+       hideLoader();
      };
   };
 
@@ -65,7 +70,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, login, register, logout, isAuthenticated, fieldErrors, setFieldErrors, loading, setLoading}}
+      value={{ user, token, login, register, logout, isAuthenticated, fieldErrors, setFieldErrors}}
     >
       {children}
     </AuthContext.Provider>

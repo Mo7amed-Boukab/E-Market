@@ -1,7 +1,7 @@
 const Loader = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <div className="flex flex-col items-center justify-center min-h-[400px]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="spinner mb-8">
           <div></div>
           <div></div>

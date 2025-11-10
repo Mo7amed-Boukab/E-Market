@@ -5,18 +5,21 @@ import FooterAuthPage from "./FooterAuthPage";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
   const { register, fieldErrors, setFieldErrors } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const formData = new FormData(e.target);
     const Data = Object.fromEntries(formData.entries());
 
     try {
          await register(Data);
+         navigate("/");
     } catch (error) {
        console.error("Error lors de connexion : ", error);
        

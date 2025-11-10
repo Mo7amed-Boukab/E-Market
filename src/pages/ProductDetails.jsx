@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import SubHeader from "../components/home-page/SubHeader";
 import Header from "../components/home-page/Header";
 import Footer from "../components/home-page/Footer";
 import ProductImages from "../components/product-details/ProductImages";
 import ProductInfo from "../components/product-details/ProductInfo";
-import ProductNotFound from "../components/product-details/ProductNotFound";
-import Loader from "../components/Loader";
+// import ProductNotFound from "../components/product-details/ProductNotFound";
+// import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
 import axios from "../axios";
-
+import { LoaderContext } from "../context/LoaderContext"
 
 
 const ProductDetails = () => {
@@ -20,10 +20,13 @@ const ProductDetails = () => {
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+ 
+  const { showLoader, hideLoader, isLoading } = useContext(LoaderContext);
+
 
   useEffect(() => {
-    setLoading(true);
+    showLoader();
     const fetchProduct = async () => {
       try {
        // test loader
@@ -34,7 +37,7 @@ const ProductDetails = () => {
         console.error("Erreur lors de fetch details du produit :",error.response?.data?.message || error.message);
         throw error;
       } finally {
-        setLoading(false);
+        hideLoader()
       }
     };
     fetchProduct();
@@ -89,27 +92,29 @@ const ProductDetails = () => {
   //   ],
   // };
 
-if (loading) {
-  return (
-    <div className="bg-white min-h-screen font-serif">
-      <SubHeader />
-      <Header />
-        <Loader/>
-      <Footer />
-    </div>
-  );
-}
+// if (isLoading) {
+//   return (
+//     <div className="bg-white min-h-screen font-serif">
+//       <SubHeader />
+//       <Header />
+//         <Loader/>
+//       <Footer />
+//     </div>
+//   );
+// }
 
-  if (!product) {
-    return (
-      <div className="bg-white min-h-screen font-serif">
-        <SubHeader />
-        <Header />
-          <ProductNotFound/>
-        <Footer />
-      </div>
-    );
-  }
+//  if (!product) {
+//     return (
+//       <div className="bg-white min-h-screen font-serif">
+//         <SubHeader />
+//         <Header />
+//         <ProductNotFound />
+//         <Footer />
+//       </div>
+//     );
+//   }
+
+  if (!product) return null; 
 
   return (
     <div className="bg-white min-h-screen font-serif">
