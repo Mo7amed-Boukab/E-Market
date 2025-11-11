@@ -2,15 +2,27 @@ import { useState } from "react";
 import { Heart, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ images, badge, discount, title, price, reviews ,productIndex}) => {
+const ProductCard = ({ images = [], badge, discount, title, price, reviews ,productIndex}) => {
 
     const [imageIndex, setImageIndex] = useState(0);
+    const currentImage = images.length > 0 && `http://localhost:3000${images[imageIndex]}`;
 
+    const handleNextImage = () => {
+       if (images.length > 0) {
+         (imageIndex === images.length -1) ?  setImageIndex(0) : setImageIndex(imageIndex + 1)
+       }
+     };
+
+     const handlePrevImage = () => {
+       if (images.length > 0) {
+         (imageIndex === 0) ? setImageIndex(images.length -1) : setImageIndex(imageIndex -1)
+       }
+     };
     return (
       <div className="group relative">
 
         <div className="relative bg-gray-100 aspect-4/4 mb-4 overflow-hidden">
-          <img src= {images} alt= {title} className="w-40 h-40 object-cover" />
+          <img src= {currentImage} alt= {title} className="w-full h-full object-cover" />
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {badge && (
               <span className="bg-white text-black text-xs font-medium px-3 py-1 font-serif">
@@ -32,19 +44,23 @@ const ProductCard = ({ images, badge, discount, title, price, reviews ,productIn
               <Eye className="w-4 h-4 text-black" />
             </button>
           </div>
-
+          { images.length > 0 && (
+            <>
               <button
-                onClick={() => setImageIndex((prev) => Math.max(0, prev - 1))}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full hover:bg-gray-200 transition z-10"
-              >
-                <ChevronLeft className="w-4 h-4 text-black" />
-              </button>
-              <button
-                onClick={() => setImageIndex((prev) => Math.min(2, prev + 1))}
+                 onClick={handlePrevImage}
+                 className="absolute left-3 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full hover:bg-gray-200 transition z-10"
+               >
+                 <ChevronLeft className="w-4 h-4 text-black" />
+               </button>
+               <button
+                onClick={handleNextImage}
                 className="absolute right-3 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full hover:bg-gray-200 transition z-10"
-              >
-                <ChevronRight className="w-4 h-4 text-black" />
-              </button>
+               >
+                 <ChevronRight className="w-4 h-4 text-black" />
+               </button>
+            </>
+          )}
+             
 
             <button className="absolute bottom-0 left-0 right-0 bg-black text-white py-3 text-sm font-medium font-serif hover:bg-gray-800 transition">
               Ajouter au panier

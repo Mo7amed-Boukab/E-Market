@@ -133,7 +133,7 @@ const ProductDetails = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Images Section */}
           <ProductImages
-            images={product.imageUrls}
+            images={product.imageUrls || []}
             selectedImage={selectedImage}
             setSelectedImage={setSelectedImage}
           />
