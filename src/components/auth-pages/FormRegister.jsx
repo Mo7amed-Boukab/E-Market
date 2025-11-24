@@ -1,10 +1,10 @@
 import HeaderAuthPage from "./HeaderAuthPage";
 import InputFormAuth from "./InputFormAuth";
-import ButtonSubmitAuthForm from "./buttonSubmitAuthForm";
+import ButtonSubmitAuthForm from "./ButtonSubmitAuthForm";
 import FooterAuthPage from "./FooterAuthPage";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
@@ -13,22 +13,24 @@ const FormRegister = () => {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const Data = Object.fromEntries(formData.entries());
 
     try {
-         await register(Data);
-         navigate("/");
+      await register(Data);
+      navigate("/");
     } catch (error) {
-       console.error("Error lors de connexion : ", error);
-       
-       const apiErrors = error.response?.data?.errors;
-       if (apiErrors) {
-         setFieldErrors(apiErrors);
-       } else {
-         setFieldErrors({ global: error.response?.data?.message || "Erreur inconnue" });
-       }
+      console.error("Error lors de connexion : ", error);
+
+      const apiErrors = error.response?.data?.errors;
+      if (apiErrors) {
+        setFieldErrors(apiErrors);
+      } else {
+        setFieldErrors({
+          global: error.response?.data?.message || "Erreur inconnue",
+        });
+      }
     }
   };
 
@@ -44,7 +46,9 @@ const FormRegister = () => {
 
         <form method="POST" className="space-y-4" onSubmit={HandleSubmit}>
           {/* global errors */}
-          {fieldErrors.global && <p className="text-red-500 mb-2">{fieldErrors.global}</p>}
+          {fieldErrors.global && (
+            <p className="text-red-500 mb-2">{fieldErrors.global}</p>
+          )}
           <InputFormAuth
             id="name"
             type="text"
@@ -52,8 +56,10 @@ const FormRegister = () => {
             placeholder="Entrez votre nom complet"
             icon={<FaUser />}
           />
-           {/* fullname error */}
-           {fieldErrors.fullname && <p className="text-red-400 text-sm">{fieldErrors.fullname}</p>}
+          {/* fullname error */}
+          {fieldErrors.fullname && (
+            <p className="text-red-400 text-sm">{fieldErrors.fullname}</p>
+          )}
           <InputFormAuth
             id="email"
             type="email"
@@ -61,15 +67,17 @@ const FormRegister = () => {
             placeholder="Entrez votre email"
             icon={<FaEnvelope />}
           />
-           {/* email error */}
-           {fieldErrors.email && <p className="text-red-400 text-sm">{fieldErrors.email}</p>}
+          {/* email error */}
+          {fieldErrors.email && (
+            <p className="text-red-400 text-sm">{fieldErrors.email}</p>
+          )}
           <InputFormAuth
             id="password"
             type="password"
             name="password"
             placeholder="Entrez votre mot de passe"
             icon={<FaLock />}
-          />  
+          />
           <InputFormAuth
             id="password_confirmation"
             type="password"
@@ -77,8 +85,10 @@ const FormRegister = () => {
             placeholder="Confirmer votre mot de passe"
             icon={<FaLock />}
           />
-           {/* password error */}
-           {fieldErrors.password && <p className="text-red-400 text-sm">{fieldErrors.password}</p>}
+          {/* password error */}
+          {fieldErrors.password && (
+            <p className="text-red-400 text-sm">{fieldErrors.password}</p>
+          )}
 
           <ButtonSubmitAuthForm name="S'inscrire" />
         </form>

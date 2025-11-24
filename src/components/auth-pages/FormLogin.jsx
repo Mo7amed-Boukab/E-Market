@@ -1,15 +1,14 @@
 import HeaderAuthPage from "./HeaderAuthPage";
 import InputFormAuth from "./InputFormAuth";
-import ButtonSubmitAuthForm from "./buttonSubmitAuthForm";
+import ButtonSubmitAuthForm from "./ButtonSubmitAuthForm";
 import FooterAuthPage from "./FooterAuthPage";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useContext } from "react";
-import {AuthContext} from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const FormLogin = () => {
-
-  const { login, fieldErrors, setFieldErrors} = useContext(AuthContext);
+  const { login, fieldErrors, setFieldErrors } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const HandleSubmit = async (e) => {
@@ -17,19 +16,21 @@ const FormLogin = () => {
 
     const formData = new FormData(e.target);
     const Data = Object.fromEntries(formData.entries());
-    
-    try {
-         await login(Data);
-         navigate("/");
-    } catch (error) {
-       console.error("Error lors de connexion : ", error);
 
-       const apiErrors = error.response?.data?.errors;
-       if (apiErrors) {
-         setFieldErrors(apiErrors);
-       } else {
-         setFieldErrors({ global: error.response?.data?.message || "Erreur inconnue" });
-       }
+    try {
+      await login(Data);
+      navigate("/");
+    } catch (error) {
+      console.error("Error lors de connexion : ", error);
+
+      const apiErrors = error.response?.data?.errors;
+      if (apiErrors) {
+        setFieldErrors(apiErrors);
+      } else {
+        setFieldErrors({
+          global: error.response?.data?.message || "Erreur inconnue",
+        });
+      }
     }
   };
 
@@ -44,8 +45,10 @@ const FormLogin = () => {
         </div>
 
         <form method="POST" className="space-y-4" onSubmit={HandleSubmit}>
-         {/* global errors */}
-          {fieldErrors.global && <p className="text-red-500 mb-2">{fieldErrors.global}</p>}
+          {/* global errors */}
+          {fieldErrors.global && (
+            <p className="text-red-500 mb-2">{fieldErrors.global}</p>
+          )}
           <InputFormAuth
             id="email"
             type="email"
@@ -54,7 +57,9 @@ const FormLogin = () => {
             icon={<FaEnvelope />}
           />
           {/* email error */}
-           {fieldErrors.email && <p className="text-red-400 text-sm">{fieldErrors.email}</p>}
+          {fieldErrors.email && (
+            <p className="text-red-400 text-sm">{fieldErrors.email}</p>
+          )}
 
           <InputFormAuth
             id="password"
@@ -63,8 +68,10 @@ const FormLogin = () => {
             placeholder="Entrez votre mot de passe"
             icon={<FaLock />}
           />
-            {/* password error */}
-           {fieldErrors.password && <p className="text-red-400 text-sm">{fieldErrors.password}</p>}
+          {/* password error */}
+          {fieldErrors.password && (
+            <p className="text-red-400 text-sm">{fieldErrors.password}</p>
+          )}
 
           {/* Remember me & Mot de passe oublié */}
           <div className="flex justify-between items-center">

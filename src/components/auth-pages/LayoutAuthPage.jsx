@@ -1,6 +1,4 @@
-import React from 'react';
 import { Link } from "react-router-dom";
-import IntroductionAuthPage from "./IntroductionAuthPage";
 
 const LayoutAuthPage = ({ name, link, introductionText }) => {
   return (
@@ -16,7 +14,9 @@ const LayoutAuthPage = ({ name, link, introductionText }) => {
         <h1 className="text-5xl font-bold leading-tight">
           Bienvenue à E Market
         </h1>
-        <IntroductionAuthPage text={introductionText} />
+        <p className="mt-4 text-base">
+          {introductionText}
+        </p>
 
         <Link
           to={link}

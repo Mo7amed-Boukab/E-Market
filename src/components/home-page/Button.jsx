@@ -1,6 +1,6 @@
 const Button = ({ btnName, onClick, background = "white" }) => {
   const baseClasses =
-    "text-sm px-12 py-3 font-serif tracking-wide transition duration-300";
+    "text-sm px-12 py-3 font-serif tracking-wide transition duration-300 uppercase";
 
   const secondaryClasses = {
     white: "border-2 border-black text-black hover:bg-black hover:text-white",

@@ -1,6 +1,6 @@
 
-import LayoutAuthPage from "../components/LayoutAuthPage";
-import FormLogin from "../components/FormLogin";
+import LayoutAuthPage from "../components/auth-pages/LayoutAuthPage";
+import FormLogin from "../components/auth-pages/FormLogin";
 
 
 const Login = () => {
