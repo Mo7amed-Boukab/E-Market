@@ -18,8 +18,12 @@ const FormLogin = () => {
     const Data = Object.fromEntries(formData.entries());
 
     try {
-      await login(Data);
-      navigate("/");
+      const user = await login(Data);
+      if (user.role === 'seller') {
+        navigate("/seller");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error lors de connexion : ", error);
 

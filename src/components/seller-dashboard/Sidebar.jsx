@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import {
   LayoutDashboard,
   Package,
@@ -18,10 +19,17 @@ import {
 
 const Sidebar = ({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   const menuGroups = [
@@ -210,14 +218,16 @@ const Sidebar = ({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) => {
             </div>
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">John Seller</p>
-                <p className="text-xs text-gray-500 truncate">Admin Manager</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">{user?.fullname || 'Seller'}</p>
+                <p className="text-xs text-gray-500 truncate">{user?.email || 'Seller Dashboard'}</p>
               </div>
             )}
           </div>
 
           {/* Logout Button */}
-          <button className={`
+          <button
+            onClick={handleLogout}
+            className={`
             flex items-center gap-3 px-3 py-2.5 w-full rounded-md text-sm font-medium text-red-600 hover:bg-red-50 transition-colors
             ${isCollapsed ? 'justify-center' : ''}
           `}>

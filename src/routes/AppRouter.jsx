@@ -6,6 +6,7 @@ import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import SellerRoutes from "./SellerRoutes";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRouter() {
   return (
@@ -16,7 +17,14 @@ function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/seller/*" element={<SellerRoutes />} />
+        <Route
+          path="/seller/*"
+          element={
+            <ProtectedRoute allowedRoles={['seller']}>
+              <SellerRoutes />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

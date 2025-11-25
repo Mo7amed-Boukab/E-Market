@@ -26,28 +26,29 @@ const AuthProvider = ({ children }) => {
     showLoader();
     try {
       const data = await authService.login(credentials);
-        authService.saveAuthData(data.token, data.user);
-        setToken(data.token);
-        setUser(data.user);
-        setIsAuthenticated(true);
-     } catch (error) {
-        console.error("Erreur lors de la connexion :", error.response?.data?.message || error.message);
-        throw error; 
-     } finally {
+      authService.saveAuthData(data.token, data.user);
+      setToken(data.token);
+      setUser(data.user);
+      setIsAuthenticated(true);
+      return data.user; // Return user data for redirection logic
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error.response?.data?.message || error.message);
+      throw error;
+    } finally {
       hideLoader();
-     };
+    };
   };
   const register = async (credentials) => {
-      showLoader();
-      try {
-            await authService.register(credentials);
-            await login({ email: credentials.email , password : credentials.password });
-      } catch(error) {
-           console.error("Erreur lors de la connexion ", error.response?.data?.message || error.message);
-           throw error;
-      } finally {
-       hideLoader();
-     };
+    showLoader();
+    try {
+      await authService.register(credentials);
+      await login({ email: credentials.email, password: credentials.password });
+    } catch (error) {
+      console.error("Erreur lors de la connexion ", error.response?.data?.message || error.message);
+      throw error;
+    } finally {
+      hideLoader();
+    };
   };
 
   const logout = () => {
@@ -59,7 +60,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, login, register, logout, isAuthenticated, fieldErrors, setFieldErrors}}
+      value={{ user, token, login, register, logout, isAuthenticated, fieldErrors, setFieldErrors }}
     >
       {children}
     </AuthContext.Provider>
