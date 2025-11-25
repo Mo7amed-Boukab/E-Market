@@ -5,7 +5,7 @@ import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
-import SellerRoutes from "../seller-dashboard/routes/SellerRoutes";
+import SellerRoutes from "./SellerRoutes";
 
 function AppRouter() {
   return (
