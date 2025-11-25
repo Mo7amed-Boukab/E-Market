@@ -1,11 +1,22 @@
-import { Search, Heart, ShoppingCart, User, Menu, X, LogOut, UserCircle } from "lucide-react";
+import {
+  Search,
+  Heart,
+  ShoppingCart,
+  User,
+  Menu,
+  X,
+  LogOut,
+  UserCircle,
+} from "lucide-react";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import CartSidebar from "./CartSidebar";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -18,19 +29,33 @@ const Header = () => {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
-        <div className="text-2xl font-bold tracking-wide uppercase">E-MARKET</div>
+        <div className="text-2xl font-bold tracking-wide uppercase">
+          E-MARKET
+        </div>
 
         <nav className="hidden md:flex gap-8 text-sm">
-          <Link to="/" className="text-black hover:opacity-60 transition font-medium uppercase">
+          <Link
+            to="/"
+            className="text-black hover:opacity-60 transition font-medium uppercase"
+          >
             HOME
           </Link>
-          <Link to="/products" className="text-gray-400 hover:opacity-60 transition font-medium uppercase">
+          <Link
+            to="/products"
+            className="text-gray-400 hover:opacity-60 transition font-medium uppercase"
+          >
             PRODUCTS
           </Link>
-          <Link to="/about" className="text-gray-400 hover:opacity-60 transition font-medium uppercase">
+          <Link
+            to="/about"
+            className="text-gray-400 hover:opacity-60 transition font-medium uppercase"
+          >
             ABOUT US
           </Link>
-          <Link to="/contact" className="text-gray-400 hover:opacity-60 transition font-medium uppercase">
+          <Link
+            to="/contact"
+            className="text-gray-400 hover:opacity-60 transition font-medium uppercase"
+          >
             CONTACT US
           </Link>
         </nav>
@@ -46,8 +71,13 @@ const Header = () => {
 
         <div className="flex items-center gap-6">
           <Heart className="w-5 h-5 text-black hidden lg:flex md:flex cursor-pointer hover:opacity-60 transition" />
-          <ShoppingCart className="w-5 h-5 text-black cursor-pointer hover:opacity-60 transition" />
-          
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="focus:outline-none"
+          >
+            <ShoppingCart className="w-5 h-5 text-black cursor-pointer hover:opacity-60 transition" />
+          </button>
+
           {isAuthenticated ? (
             <div className="relative hidden lg:block md:block">
               <button
@@ -60,10 +90,13 @@ const Header = () => {
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg z-50 font-serif">
-
                   <div className="px-4 py-3 border-b border-gray-200">
-                    <p className="text-sm font-medium text-black">{user?.fullname || "Utilisateur"}</p>
-                    <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                    <p className="text-sm font-medium text-black">
+                      {user?.fullname || "Utilisateur"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {user?.email}
+                    </p>
                   </div>
 
                   <div className="py-2">
@@ -147,7 +180,7 @@ const Header = () => {
               <Heart className="w-5 h-5" />
               <span>Favoris</span>
             </button>
-            
+
             {isAuthenticated ? (
               <>
                 <Link
@@ -181,6 +214,8 @@ const Header = () => {
           </div>
         </nav>
       )}
+
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };
