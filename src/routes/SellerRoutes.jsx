@@ -6,6 +6,8 @@ import OrdersPage from '../pages/seller-dashboard/OrdersPage';
 import CouponsPage from '../pages/seller-dashboard/CouponsPage';
 import AddProductPage from '../pages/seller-dashboard/AddProductPage';
 import EditProductPage from '../pages/seller-dashboard/EditProductPage';
+import AddCouponPage from '../pages/seller-dashboard/AddCouponPage';
+import EditCouponPage from '../pages/seller-dashboard/EditCouponPage';
 import ProductDetailsPage from '../pages/seller-dashboard/ProductDetailsPage';
 import OrderDetailsPage from '../pages/seller-dashboard/OrderDetailsPage';
 
@@ -21,6 +23,8 @@ const SellerRoutes = () => {
                 <Route path="orders" element={<OrdersPage />} />
                 <Route path="orders/:id" element={<OrderDetailsPage />} />
                 <Route path="coupons" element={<CouponsPage />} />
+                <Route path="coupons/add" element={<AddCouponPage />} />
+                <Route path="coupons/edit/:id" element={<EditCouponPage />} />
                 <Route path="statistics" element={<div className="p-4">Statistics Page (Coming Soon)</div>} />
                 <Route path="settings" element={<div className="p-4">Settings Page (Coming Soon)</div>} />
             </Route>
