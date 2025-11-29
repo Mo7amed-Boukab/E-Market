@@ -122,7 +122,7 @@ const ProductCard = ({
           </p>
 
           <div className="mt-auto">
-            <button className="bg-black text-white px-8 py-3 text-sm font-medium font-serif hover:bg-gray-800 transition uppercase tracking-wide">
+            <button className="bg-black text-white px-8 py-2.5 text-sm font-small font-serif hover:bg-gray-800 transition tracking-wide">
               Ajouter au panier
             </button>
           </div>
@@ -156,9 +156,9 @@ const ProductCard = ({
           <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
             <Heart className="w-4 h-4 text-black" />
           </button>
-          <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
+          <Link to={`/product/${productIndex}`} className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
             <Eye className="w-4 h-4 text-black" />
-          </button>
+          </Link>
         </div>
         {images.length > 0 && (
           <>

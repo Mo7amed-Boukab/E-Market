@@ -1,5 +1,6 @@
 import { BiTestTube } from "react-icons/bi";
 import Button from "./Button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -24,7 +25,7 @@ const Hero = () => {
             toute simplicité.
           </p>
 
-          <Button btnName={"VOIR NOS PRODUITS"} />
+          <Link to="/products"><Button btnName={"VOIR NOS PRODUITS"} /></Link>
         </div>
       </div>
       <div className="bg-black text-white py-8 px-4">
