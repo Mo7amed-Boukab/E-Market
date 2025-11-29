@@ -10,6 +10,7 @@ import AddCouponPage from '../pages/seller-dashboard/AddCouponPage';
 import EditCouponPage from '../pages/seller-dashboard/EditCouponPage';
 import ProductDetailsPage from '../pages/seller-dashboard/ProductDetailsPage';
 import OrderDetailsPage from '../pages/seller-dashboard/OrderDetailsPage';
+import StatisticsPage from '../pages/seller-dashboard/StatisticsPage';
 
 const SellerRoutes = () => {
     return (
@@ -25,7 +26,7 @@ const SellerRoutes = () => {
                 <Route path="coupons" element={<CouponsPage />} />
                 <Route path="coupons/add" element={<AddCouponPage />} />
                 <Route path="coupons/edit/:id" element={<EditCouponPage />} />
-                <Route path="statistics" element={<div className="p-4">Statistics Page (Coming Soon)</div>} />
+                <Route path="statistics" element={<StatisticsPage />} />
                 <Route path="settings" element={<div className="p-4">Settings Page (Coming Soon)</div>} />
             </Route>
         </Routes>
